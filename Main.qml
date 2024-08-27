@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import SerialInfrared
+import BleInfrared
 
 Window {
     width: 720
@@ -116,17 +116,15 @@ Window {
             }
         }
 
-        RowLayout {
-            anchors.left: parent.left
-            anchors.bottom: parent.bottom
+        ColumnLayout {
+            anchors.top: parent.top
+            anchors.right: parent.right
             anchors.margins: 5
-
-            Layout.fillWidth: false
 
             ComboBox {
                 id: device
 
-                implicitWidth: 80
+                Layout.fillWidth: true
             }
 
             ComboBox {
@@ -143,7 +141,7 @@ Window {
                     { value: Commander.ModeToggle, text: '기타' },
                 ]
 
-                implicitWidth: 80
+                Layout.fillWidth: true
             }
 
             ComboBox {
@@ -158,10 +156,9 @@ Window {
                     { value: Commander.FanSpeedHigh, text: '강' },
                     { value: Commander.FanSpeedNature, text: '자연풍' },
                 ]
-
-                implicitWidth: 80
-
                 visible: mode.currentValue !== Commander.ModeAi && mode.currentValue !== Commander.ModeToggle
+
+                Layout.fillWidth: true
             }
 
             ComboBox {
@@ -177,10 +174,9 @@ Window {
                     { value: Commander.AiP1, text: '조금 추울때' },
                     { value: Commander.AiP2, text: '추울때' },
                 ]
-
-                implicitWidth: 100
-
                 visible: mode.currentValue === Commander.ModeAi
+
+                Layout.fillWidth: true
             }
 
             ComboBox {
@@ -194,19 +190,18 @@ Window {
                     { value: Commander.ToggleSwingVertical, text: '상하 바람' },
                     { value: Commander.ToggleComfortAir, text: '간접 바람' },
                 ]
-
-                implicitWidth: 100
-
                 visible: mode.currentValue === Commander.ModeToggle
+
+                Layout.fillWidth: true
             }
 
             Button {
-                text: '-'
-
-                implicitWidth: Math.max(20, 10 + implicitContentWidth + leftPadding + rightPadding)
+                text: '▲'
 
                 visible: mode.currentValue === Commander.ModeCool
-                onClicked: temperature.value = Math.max(commander.temperatureMin, temperature.value - 1)
+                onClicked: temperature.value = Math.min(commander.temperatureMax, temperature.value + 1)
+
+                Layout.fillWidth: true
             }
             SpinBox {
                 id: temperature
@@ -214,71 +209,71 @@ Window {
                 from: commander.temperatureMin
                 to: commander.temperatureMax
 
-                implicitWidth: 20 + implicitContentWidth + leftPadding + rightPadding
-
                 visible: mode.currentValue === Commander.ModeCool
+
+                Layout.fillWidth: true
             }
             Button {
-                text: '+'
-
-                implicitWidth: Math.max(20, 10 + implicitContentWidth + leftPadding + rightPadding)
+                text: '▼'
 
                 visible: mode.currentValue === Commander.ModeCool
-                onClicked: temperature.value = Math.min(commander.temperatureMax, temperature.value + 1)
+                onClicked: temperature.value = Math.max(commander.temperatureMin, temperature.value - 1)
+
+                Layout.fillWidth: true
             }
 
             Button {
                 text: '적용'
 
-                implicitWidth: 20 + implicitContentWidth + leftPadding + rightPadding
-
                 visible: mode.currentValue !== Commander.ModeToggle
                 onClicked: send(false)
+
+                Layout.fillWidth: true
             }
 
             Button {
                 text: '터보'
 
-                implicitWidth: 20 + implicitContentWidth + leftPadding + rightPadding
-
                 visible: mode.currentValue !== Commander.ModeToggle
                 onClicked: commander.turbo()
+
+                Layout.fillWidth: true
             }
 
             Button {
                 text: '켜기'
 
-                implicitWidth: 20 + implicitContentWidth + leftPadding + rightPadding
-
                 visible: mode.currentValue !== Commander.ModeToggle
                 onClicked: send(true)
+
+                Layout.fillWidth: true
             }
 
             Button {
                 text: '끄기'
 
-                implicitWidth: 20 + implicitContentWidth + leftPadding + rightPadding
-
                 visible: mode.currentValue !== Commander.ModeToggle
                 onClicked: commander.powerOff()
+
+                Layout.fillWidth: true
             }
 
             Button {
                 text: 'ON'
 
-                implicitWidth: 20 + implicitContentWidth + leftPadding + rightPadding
-
                 visible: mode.currentValue === Commander.ModeToggle
                 onClicked: send(true)
+
+                Layout.fillWidth: true
             }
 
             Button {
                 text: 'OFF'
 
-                implicitWidth: 20 + implicitContentWidth + leftPadding + rightPadding
-
                 visible: mode.currentValue === Commander.ModeToggle
                 onClicked: send(false)
+
+                Layout.fillWidth: true
             }
         }
     }

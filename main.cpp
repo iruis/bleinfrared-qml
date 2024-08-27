@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     QQuickStyle::setStyle("Fusion");
     QQmlApplicationEngine engine;
     engine.setInitialProperties({ {"images", images}, {"devices", devices} });
-    const QUrl url(QStringLiteral("qrc:/SerialInfrared/Main.qml"));
+    const QUrl url(QStringLiteral("qrc:/BleInfrared/Main.qml"));
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreated,
